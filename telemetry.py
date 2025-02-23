@@ -96,8 +96,6 @@ class Telemetry:
         raw_df: pd.DataFrame = pd.read_csv(path, delimiter=";", dtype = str)
         
         return raw_df
-
-    def _get_trajectories_groups(self, group_fleet_driver: pd.DataFrame) -> list[pd.DataFrame]:
         idx_groups = [[]]
         clean_groups = []
         prev_idx = -1
@@ -118,15 +116,13 @@ class Telemetry:
 
         return groups
 
-    def get_fleet_driver_groups(self):
+    def _get_fleet_driver_groups(self):
         fleet_driver_groups = [group for _, group in self.telemetry_data.groupby(by=["fleet", "driver_id"], sort=False)]
         valid_trajectories = pd.DataFrame({
             "fleet": pd.Series(dtype=str),
             "driver_id": pd.Series(dtype=str),
-            "distance": pd.Series(dtype=float),
-            "fuel": pd.Series(dtype=float),
-            "inital_braspress_branch": pd.Series(dtype=str),
-            "final_braspress_branch": pd.Series(dtype=str)
+            "line_id": pd.Series(dtype=str),
+            "avg_fuel_consumption": pd.Series(dtype=float)
         })
 
         for fleet_driver_group in fleet_driver_groups:
@@ -150,14 +146,13 @@ class Telemetry:
             if start_traj_idx > -1 and end_traj_idx > -1:
                 distance: float = fleet_driver_group["distance"].loc[start_traj_idx:end_traj_idx].sum()
                 fuel: float = fleet_driver_group["fuel"].loc[start_traj_idx:end_traj_idx].sum()
+                avg_fuel_consumption = distance / fuel
 
                 new_valid_traj = pd.DataFrame({
                     "fleet": [start_traj["fleet"].iloc[0]],
                     "driver_id": [start_traj["driver_id"].iloc[0]],
-                    "distance": [distance],
-                    "fuel": [fuel],
-                    "inital_braspress_branch": [start_traj["initial_coord_close_to_brasprass"].iloc[0]],
-                    "final_braspress_branch": [end_traj["final_coord_close_to_brasprass"].iloc[0]]
+                    "avg_fuel_consumption": [avg_fuel_consumption],
+                    "line_id": [start_traj["initial_coord_close_to_brasprass"].iloc[0] + end_traj["final_coord_close_to_brasprass"].iloc[0]]
                 })
 
                 valid_trajectories = pd.concat([valid_trajectories, new_valid_traj], ignore_index=True)
@@ -184,16 +179,22 @@ class Telemetry:
                 if start_traj_idx > -1 and end_traj_idx > -1:
                     distance: float = fleet_driver_group["distance"].loc[start_traj_idx:end_traj_idx].sum()
                     fuel: float = fleet_driver_group["fuel"].loc[start_traj_idx:end_traj_idx].sum()
+                    avg_fuel_consumption = distance / fuel
 
                     new_valid_traj = pd.DataFrame({
                         "fleet": [start_traj["fleet"].iloc[0]],
                         "driver_id": [start_traj["driver_id"].iloc[0]],
-                        "distance": [distance],
-                        "fuel": [fuel],
-                        "inital_braspress_branch": [start_traj["initial_coord_close_to_brasprass"].iloc[0]],
-                        "final_braspress_branch": [end_traj["final_coord_close_to_brasprass"].iloc[0]]
+                        "avg_fuel_consumption": [avg_fuel_consumption],
+                        "line_id": [start_traj["initial_coord_close_to_brasprass"].iloc[0] + end_traj["final_coord_close_to_brasprass"].iloc[0]]
                     })
 
                     valid_trajectories = pd.concat([valid_trajectories, new_valid_traj], ignore_index=True)
         
-        return valid_trajectories, fleet_driver_groups
+        return valid_trajectories
+    
+    def get_driver_stats(self):
+        fleet_driver_groups = self._get_fleet_driver_groups()
+        drivers_stats = [group.drop(columns=["fleet"]) for _, group in self._get_fleet_driver_groups().groupby(by=["driver_id"], sort=False)]
+        valid_lines_with_stats = braspress.Braspress(self.settings).extract_valid_lines_with_stats(drivers_stats)
+        
+        return pd.concat(drivers_stats)
