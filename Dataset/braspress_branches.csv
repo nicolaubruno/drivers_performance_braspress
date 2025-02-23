@@ -46,12 +46,13 @@ ITJ,"R. Antonio Victor Gonçalves, 250 - Área A4 - Salseiros, Itajaí - SC, 883
 ITN,"BR-415, 6191 - Galpão 6 - Fernando Gomes, Itabuna - BA, 45613-550","-14.842213, -39.331759"
 JDF,"Braspress Transportes Urgentes | Juiz de Fora - JDF, R. Joana D'Arc, S/N - Santa Cruz, Juiz de Fora - MG, 36088-390","-21.720634, -43.439221"
 JDO,"Rua Bulandeira de Baixo, 165 - Bulandeira, Barbalha - CE, 63095-006","-7.284073, -39.322699"
-JOI,"Braspress Transportes Urgentes | Joinville - JOI, R. Copacabana, 1770 - Floresta, Joinville - SC, 89211-380","-26.339097, -48.858400"
+JOI,"Braspress Transportes Urgentes | Joinville - JOI, R. Copacabana, 1770 - Floresta, Joinville - SC, 89211-380
+","-26.339097, -48.858400"
 JPA,"Braspress Transportes Urgentes | João Pessoa - JPA, Condominio Logistico industrial da Paraíba, Galpão G300 - BR-101, KM 101 - Mód. 1/2 - Distrito Industrial, Conde - PB, 58322-900","-7.272867, -34.937083"
 LDB,"R. José Carlos Muffato, 1924 - Vila Josiane, Cambé - PR, 86187-025","-23.300680, -51.227788"
 MAO,"Av. Buriti, 4019 - Distrito Industrial I, Manaus - AM, 69075-000","-3.107668, -59.958654"
 MCZ,"BR-104, 2764 - Tabuleiro do Pinto, Rio Largo - AL, 57100-000","-9.489812, -35.816011"
-MEA,"R. P Um, 04 - Granja dos Cavaleiros, Macaé - RJ, 27930-500",-22.391939 -41.814784
+MEA,"R. P Um, 04 - Granja dos Cavaleiros, Macaé - RJ, 27930-500","-22.391939, -41.814784"
 MGF,"Rodovia Pr-317, 7466","-23.477636, -52.002371"
 MOC,"Av. Gov. Magalhães Pinto, 3333 - Planalto, Montes Claros - MG, 39404-166","-16.703797, -43.834661"
 MSS,"Av. Gury Marques, 4561 - Vila Cidade Morena, Campo Grande - MS, 79064-000","-20.542879, -54.593103"
@@ -65,17 +66,21 @@ PGT,"Braspress Transportes Urgentes | Porangatu - PGT, Av. Adélino Américo de 
 PGZ,"BRASPRESS, Av. Pres. Kennedy - Cará-Cará, Ponta Grossa - PR, 84043-450","-25.153624, -50.137994"
 PMW,"Braspress Transportes Urgentes | Palmas - PMW, ASR SE 95, Alameda 11, S/N - 912 Sul QI-E, Lotes 14 a 18 - Plano Diretor Sul, Palmas - TO, 77023-480","-10.239263, -48.315589"
 PNZ,"Av Coronel - Av. Clementino Coelho, 1022 - Atrás da Banca, Petrolina - PE, 56308-210","-9.396388, -40.51536"
-POA,"Braspress Transportes Urgentes | Porto Alegre - POA, Condomínio Logístico Açorianos, Rua Amilton da Silva Amorim, nº 86 - Sanga Funda, Nova Santa Rita - RS, 92480-000","-29.843512, -51.275301"
+POA,"Braspress Transportes Urgentes | Porto Alegre - POA, Condomínio Logístico Açorianos, Rua Amilton da Silva Amorim, nº 86 - Sanga Funda, Nova Santa Rita - RS, 92480-000
+","-29.843512, -51.275301"
 POJ,"R. Geraldo Teixeira da Cunha, 130 - Cidade Nova, Patos de Minas - MG, 38706-412","-18.615925, -46.511833"
 PPR,"R. Sol Nascente, 150 - Parque das Cerejeiras, Pres. Prudente - SP, 19061-340","-22.131575, -51.419386"
 PTO,"R. Pedro Ramires de Mello, 2081 - Menino Jesus, Pato Branco - PR, 85502-050","-26.236652, -52.690371"
 PTU,"Braspress Transportes Urgentes | Paracatu - PTU, Rua Mercurio, 222 - Amoreira 2, Paracatu - MG, 38600-000","-17.210028, -46.874711"
 QHV,"Novo Hamburgo - QHV, RS-239, 1601 - São José, Novo Hamburgo - RS, 93152-000","-29.662231, -51.129901"
 QJA,"Av. Izídio Carlos Peixer, 68 - Ilha da Figueira, Guaramirim - SC, 89270-000","-26.485911, -48.999518"
-R2C,"Braspress Transportes Urgentes | Rio - R2C, Rod. Washington Luiz, 2569 - Parque Duque, Duque de Caxias - RJ, 25085-008","-22.785878, -43.287396"
-R3J,"Braspress Transportes Urgentes | Rio - R2C, Rod. Washington Luiz, 2569 - Parque Duque, Duque de Caxias - RJ, 25085-008","-22.785878, -43.287396"
+R2C,"Braspress Transportes Urgentes | Rio - R2C, Rod. Washington Luiz, 2569 - Parque Duque, Duque de Caxias - RJ, 25085-008
+","-22.785878, -43.287396"
+R3J,"Braspress Transportes Urgentes | Rio - R2C, Rod. Washington Luiz, 2569 - Parque Duque, Duque de Caxias - RJ, 25085-008
+","-22.785878, -43.287396"
 RAO,"R. Prof. Antônio Paloci, 66 - Jardim Ouro Branco, Ribeirão Preto - SP, 14079-800","-21.156788, -47.755298"
-RDS,"Braspress Transportes Urgentes | Rio do Sul - RDS, BR-470 - Canoas, Rio do Sul - SC, 89164-141","-27.220465, -49.660102"
+RDS,"Braspress Transportes Urgentes | Rio do Sul - RDS, BR-470 - Canoas, Rio do Sul - SC, 89164-141
+","-27.220465, -49.660102"
 REC,"Braspress Transportes Urgentes | Recife - REC, BR-101 Sul, 3791 Bloco A, Lote 2025 Gleba 2BA1 - Ind. Sto. Estevão, Distr - PE, 54503-010","-8.254080, -35.007474"
 RIA,"BR-392, 4161 - Km 345 - Lorenzi, Santa Maria - RS, 97070-160","-29.741606, -53.794332"
 RIO,"Av. Arthur Antônio Sendas, 1200 - Parque Analândia, São João de Meriti - RJ","-22.801405, -43.348215"
@@ -99,8 +104,10 @@ UBA,"BR-050, 183 - Km 183, Área 1A - UBG São Francisco, Uberaba - MG, 38038-05
 UDI,"Braspress Transportes Urgentes | Uberlandia - UDI, R. Da Lavoura, 3333 - Minas Gerais, Uberlândia - MG, 38402-185","-18.866794, -48.255357"
 UMU,"Av. Elídio Zago, 1319 - Parque Residencial Viena, Umuarama - PR, 87507-660","-23.797693, -53.320370"
 URG,"Braspress Transportes Urgentes | Uruguaiana - URG, R. Dr. Edli Valenca, 699 - Santo Inacio, Uruguaiana - RS, 97505-160","-29.764620, -57.043910"
-V2C,"Braspress Transportes Urgentes| Vitória - V2C, Av. Setecentos, S/N - TIMS, Serra - ES, 29161-414","-20.200995, -40.314195"
+V2C,"Braspress Transportes Urgentes| Vitória - V2C, Av. Setecentos, S/N - TIMS, Serra - ES, 29161-414
+","-20.200995, -40.314195"
 VAG,"Av. Comendador Manoel Sendas, 300 - Parque Mariela, Varginha - MG, 37030-010","-21.558552, -45.454308"
 VDC,"Braspress Transportes Urgentes | Vitoria da Conquista - VDC, Rod, BR-116 - Distrito Industrial, BA, 45089-340","-14.908043, -40.869846"
 VIX,"R. Atalydes Moreira de Souza, 1656 - Civit I, Serra - ES, 29168-055","-20.159793, -40.241128"
-XAP,"Braspress Transportes Urgentes | Chapecó - XAP, R. Valdemiro Belinski, 115 - Trevo, Chapecó - SC, 89810-000","-27.001086, -52.652331"
+XAP,"Braspress Transportes Urgentes | Chapecó - XAP, R. Valdemiro Belinski, 115 - Trevo, Chapecó - SC, 89810-000
+","-27.001086, -52.652331"
