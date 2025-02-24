@@ -32,7 +32,7 @@ class Braspress:
         
         return clean_df
 
-    def extract_valid_lines_with_stats(self, driver_stats: pd.DataFrame) -> pd.Series:
+    def extract_valid_lines_with_stats(self, drivers_stats: pd.DataFrame) -> pd.Series:
         raw_valid_lines: pd.DataFrame = pd.read_csv(self.settings["braspress_valid_lines_path"], delimiter=",", dtype = str)
         valid_lines: pd.DataFrame = (
             raw_valid_lines
@@ -47,9 +47,29 @@ class Braspress:
 
         valid_lines["line_id"] = valid_lines["line_id"].str.replace('-', '').astype(str)
         valid_lines["line_id"].drop_duplicates(inplace=True)
-        valid_lines_with_stats = driver_stats.groupby(by="line_id")["avg_fuel_consumption"].mean()
+
+        valid_lines_with_stats = [] 
+
+        for line_id, driver_stats in drivers_stats.groupby(by="line_id"):
+            valid_lines_with_stats.append(pd.DataFrame({
+                "line_id": [line_id],
+                "avg_fuel_consumption_mean": [driver_stats["avg_fuel_consumption"].mean()],
+                "avg_fuel_consumption_std": [driver_stats["avg_fuel_consumption"].std()],
+            }))
+
+        valid_lines_with_stats = pd.concat(valid_lines_with_stats).set_index("line_id")
+
+        valid_lines_with_stats["avg_fuel_consumption_goal"] = valid_lines_with_stats.apply(
+            lambda row: row["avg_fuel_consumption_mean"] if np.isnan(row["avg_fuel_consumption_std"]) else row["avg_fuel_consumption_mean"] + row["avg_fuel_consumption_std"]*self.settings["avg_fuel_consumption_goal_number_of_std"],
+              axis = 1)
         
-        return pd.merge(valid_lines["line_id"], valid_lines_with_stats, on="line_id", how="left").set_index("line_id")
+        valid_lines_with_stats.drop(columns=["avg_fuel_consumption_mean", "avg_fuel_consumption_std"], inplace=True)
+        
+        return (
+            pd
+            .merge(valid_lines["line_id"], valid_lines_with_stats, on="line_id", how="left")
+            .set_index("line_id"))
+            #.rename(columns={"avg_fuel_consumption": "avg_fuel_consumption_goal"}))
         
     def get_closest_branch(self, coord: tuple[float, float]) -> str:
         branches = self.branches

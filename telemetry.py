@@ -116,7 +116,7 @@ class Telemetry:
 
         return groups
 
-    def _get_fleet_driver_groups(self):
+    def get_fleet_driver_groups(self):
         fleet_driver_groups = [group for _, group in self.telemetry_data.groupby(by=["fleet", "driver_id"], sort=False)]
         valid_trajectories = pd.DataFrame({
             "fleet": pd.Series(dtype=str),
@@ -146,7 +146,7 @@ class Telemetry:
             if start_traj_idx > -1 and end_traj_idx > -1:
                 distance: float = fleet_driver_group["distance"].loc[start_traj_idx:end_traj_idx].sum()
                 fuel: float = fleet_driver_group["fuel"].loc[start_traj_idx:end_traj_idx].sum()
-                avg_fuel_consumption = distance / fuel
+                avg_fuel_consumption = (distance / fuel) if fuel > 0 else np.nan
 
                 new_valid_traj = pd.DataFrame({
                     "fleet": [start_traj["fleet"].iloc[0]],
@@ -179,7 +179,7 @@ class Telemetry:
                 if start_traj_idx > -1 and end_traj_idx > -1:
                     distance: float = fleet_driver_group["distance"].loc[start_traj_idx:end_traj_idx].sum()
                     fuel: float = fleet_driver_group["fuel"].loc[start_traj_idx:end_traj_idx].sum()
-                    avg_fuel_consumption = distance / fuel
+                    avg_fuel_consumption = (distance / fuel) if fuel > 0 else np.nan
 
                     new_valid_traj = pd.DataFrame({
                         "fleet": [start_traj["fleet"].iloc[0]],
@@ -191,10 +191,21 @@ class Telemetry:
                     valid_trajectories = pd.concat([valid_trajectories, new_valid_traj], ignore_index=True)
         
         return valid_trajectories
-    
+
     def get_driver_stats(self):
-        fleet_driver_groups = self._get_fleet_driver_groups()
-        drivers_stats = [group.drop(columns=["fleet"]) for _, group in self._get_fleet_driver_groups().groupby(by=["driver_id"], sort=False)]
+        drivers_stats = pd.concat([group.drop(columns=["fleet"]) for _, group in self.get_fleet_driver_groups().groupby(by=["driver_id"], sort=False)])
         valid_lines_with_stats = braspress.Braspress(self.settings).extract_valid_lines_with_stats(drivers_stats)
+        drivers_stats = pd.merge(drivers_stats, valid_lines_with_stats, how="left", on="line_id")
+
+        drivers_stats_avg = []
+        for driver_id, driver_stats in drivers_stats.groupby(by="driver_id"):
+            stats = pd.DataFrame({
+                "driver_id": [driver_id],
+                "avg_fuel_consumption": [driver_stats["avg_fuel_consumption"].mean()],
+                "avg_fuel_consumption_goal": [driver_stats["avg_fuel_consumption_goal"].mean()],
+            })
+            stats["reach_fuel_goal"] = stats.apply(lambda row: np.nan if np.isnan(row["avg_fuel_consumption_goal"]) else row["avg_fuel_consumption"] > row["avg_fuel_consumption_goal"], axis = 1)
+
+            drivers_stats_avg.append(stats)
         
-        return pd.concat(drivers_stats)
+        return pd.concat(drivers_stats_avg).set_index("driver_id")
