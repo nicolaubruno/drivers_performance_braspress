@@ -23,14 +23,6 @@ class Telemetry:
         return self._settings
     
     @property
-    def year(self):
-        return self._year
-    
-    @property
-    def month(self):
-        return self._month
-    
-    @property
     def braspress(self):
         return self._braspress
     
@@ -38,11 +30,9 @@ class Telemetry:
     def max_lines_to_read(self):
         return self._max_lines_to_read
     
-    def __init__(self, settings: dict[str, str], year: int, month: int, max_lines_to_read: int = None):
+    def __init__(self, settings: dict[str, str], max_lines_to_read: int = None):
         self._settings = settings
         self._max_lines_to_read = max_lines_to_read
-        self._year = year
-        self._month = month
         self._braspress = braspress.Braspress(self.settings)
 
         self._raw_telemetry_data = self._extract_raw_telemetry_data()
@@ -92,29 +82,12 @@ class Telemetry:
         return clean_data.reset_index(drop=True)
 
     def _extract_raw_telemetry_data(self) -> pd.DataFrame:
-        path: str = f"{self.settings["telemetry_dir"]}/{self.year:04}-{self.month:02}.csv"
-        raw_df: pd.DataFrame = pd.read_csv(path, delimiter=";", dtype = str)
+        raw_telemetry_data = []
+        for date in self.settings["dates"]:
+            path: str = f"{self.settings["telemetry_dir"]}/{date[0]:04}-{date[1]:02}.csv"
+            raw_telemetry_data.append(pd.read_csv(path, delimiter=";", dtype = str))
         
-        return raw_df
-        idx_groups = [[]]
-        clean_groups = []
-        prev_idx = -1
-        groups = []
-
-        for idx in group_fleet_driver.index:
-            if prev_idx == -1 or (idx - prev_idx) == 1:
-                idx_groups[-1].append(idx)
-                prev_idx = idx
-            
-            else:
-                idx_groups.append([])
-                idx_groups[-1].append(idx)
-                prev_idx = -1
-
-        for idx_group in idx_groups:
-            groups.append(group_fleet_driver.loc[idx_group])
-
-        return groups
+        return pd.concat(raw_telemetry_data)
 
     def get_fleet_driver_groups(self):
         fleet_driver_groups = [group for _, group in self.telemetry_data.groupby(by=["fleet", "driver_id"], sort=False)]
@@ -208,4 +181,4 @@ class Telemetry:
 
             drivers_stats_avg.append(stats)
         
-        return pd.concat(drivers_stats_avg).set_index("driver_id")
+        return pd.concat(drivers_stats_avg).set_index("driver_id").sort_index(ascending=False)
